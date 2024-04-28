@@ -23,3 +23,12 @@ def lcg(seed=None, a=A, c=C, modulus=M):
         val = (a*val + c)%modulus
         return val
     return gen
+
+random = lcg()
+
+def uniform():
+    return random()/M
+
+
+def randfloat(a, b):
+    return a + (b - a)*uniform()
