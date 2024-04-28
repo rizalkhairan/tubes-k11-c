@@ -6,7 +6,17 @@
             randfloat(a, b) -> float    : memberikan float acak di interval [a,b]
 """   
 
-def lcg(seed, a, c, modulus):
+import time
+
+# Parameter didapatkan dari paper https://www.ams.org/journals/mcom/1999-68-225/S0025-5718-99-00996-5/S0025-5718-99-00996-5.pdf 
+M = 17179869143  # 2**34 - 41
+A = 473186378
+C = 0
+
+def lcg(seed=None, a=A, c=C, modulus=M):
+    if seed is None:
+        seed = int(time.time())
+    
     val = seed
     def gen():
         nonlocal val
