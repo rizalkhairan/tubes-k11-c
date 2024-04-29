@@ -30,5 +30,11 @@ def uniform():
     return random()/M
 
 
+def randrange(a, b):
+    return a + int((b - a)*uniform())
+
+def randint(a, b):
+    return randrange(a, b+1)
+
 def randfloat(a, b):
     return a + (b - a)*uniform()
