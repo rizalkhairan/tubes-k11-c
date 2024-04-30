@@ -20,7 +20,7 @@ def parse_csv(file):
 
     return table
 
-==================== Test ====================
+# ==================== Test ====================
 
-# tab = open("../data/user.csv")
-# print(parse_csv(tab))
+# with open("../data/user.csv") as file:
+#   print(parse_csv(file))
