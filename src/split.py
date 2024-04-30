@@ -14,7 +14,7 @@ def split(string, sep=' '):
             substring.append(placehold)
             placehold = ''
         else:
-            placehold += placehold + string[i]
+            placehold += string[i]
     substring.append(placehold)
 
     return substring
