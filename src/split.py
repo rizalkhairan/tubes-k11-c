@@ -5,7 +5,7 @@
 
 """
 
-def split(string, sep=' '):
+def split(string, sep=';'):
     substring = []
 
     placehold = ''
