@@ -1,8 +1,8 @@
 """Menunjukkan inventory suatu user
 
     Fungsi
-        get_monster_inventory(user_id)  -> [[str]]  : mengembalikan list monster yang ada di inventory
-        get_item_inventory(user_id) -> [[str]]      : mengembalikan list item yang ada di inventory
+        get_monster_inventory(user_id, file_path)  -> [[str]]  : mengembalikan list monster yang ada di inventory
+        get_item_inventory(user_id, file_path) -> [[str]]      : mengembalikan list item yang ada di inventory
         get_inventory(user_id, file_path) -> [[str]]    : menunjukkan inventory 
 """
 
@@ -31,17 +31,17 @@ def get_inventory(user_id=USER_ID, file_path=FILE_PATH):
     print("2. Item")
     opsi = input()
     if opsi=="1" or "Monster":
-        get_monster_inventory(user_id)
+        get_monster_inventory(user_id, file_path)
     elif opsi=="2" or "Item":
-        get_item_inventory(user_id)
+        get_item_inventory(user_id, file_path)
     else:
         pass
 
 
-def get_monster_inventory(user_id):
+def get_monster_inventory(user_id, file_path):
     return
 
-def get_item_inventory(user_id):
+def get_item_inventory(user_id, file_path):
     return
 
 
