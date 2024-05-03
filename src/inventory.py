@@ -38,10 +38,10 @@ def get_inventory(user_id=USER_ID, file_path=FILE_PATH):
         pass
 
 
-def get_monster_inventory():
+def get_monster_inventory(user_id):
     return
 
-def get_item_inventory():
+def get_item_inventory(user_id):
     return
 
 
