@@ -27,13 +27,13 @@ with open(FILE_PATH + "item_inventory.csv") as itemFile:
     itemData = csvparse.parse_csv(itemFile)
 
 def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=monsterData,
-                  itemInventoryTable=itemData):
+                   itemInventoryTable=itemData):
 
     print("==================== INVENTORY ====================")
     print("User ID : " + str(user_id))
 
     # Menunjukkan jumlah coin yang dimiliki user
-    for i in range(1,len(userTable)):
+    for i in range(1, len(userTable)):
         user = userTable[i]
         if int(user[0])==user_id:   # Cek user id yang sesuai
             coins = int(user[4])
@@ -45,17 +45,30 @@ def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=mo
     print("2. Item")
     opsi = input()
     if opsi=="1" or "Monster":
-        monster = get_monster_inventory(user_id, monsterInventoryTable)
-        print(monster)
+        table = get_monster_inventory(user_id, monsterInventoryTable)
+        print(table)
+
     elif opsi=="2" or "Item":
         item = get_item_inventory(user_id, itemInventoryTable)
         print(item)
+
     else:
         pass
 
 
 def get_monster_inventory(user_id, monsterInventoryTable):
-    return
+    table = []      
+    table.append(monsterInventoryTable[0])
+
+    # Filter monster berdasarkan kepemilikan user
+    # Jika tidak memiliki monster, akan dikembalikan array yang hanya berisi judul (memiliki 1 baris)
+    # Note: user Agent seharusnya sudah memiliki minimal satu monster
+    for i in range(1, len(monsterInventoryTable)):
+        monster = monsterInventoryTable[i]
+        if int(monster[0])==user_id:
+            table.append(monster)
+
+    return table
 
 def get_item_inventory(user_id, itemInventoryTable):
     return
