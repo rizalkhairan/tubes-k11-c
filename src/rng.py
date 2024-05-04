@@ -13,18 +13,14 @@ M = 17179869143  # 2**34 - 41
 A = 473186378
 C = 0
 
-def lcg(seed=None, a=A, c=C, modulus=M):
-    if seed is None:
-        seed = int(time.time())
-    
-    val = seed
+def lcg(seed, a, c, modulus):
     def gen():
-        nonlocal val
-        val = (a*val + c)%modulus
-        return val
+        gen.value = (a*gen.value + c) % modulus
+        return gen.value
+    gen.value = seed
     return gen
 
-random = lcg()
+random = lcg(int(time.time()), A, C, M)
 
 def uniform():
     return random()/M
