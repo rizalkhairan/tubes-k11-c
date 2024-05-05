@@ -31,13 +31,27 @@ def show_inventory(user_id, userTable, monsterInventoryTable, monsterTable, item
     print("1. Monster      2. Item ")
     opsi = input()
     if opsi=="1" or opsi=="Monster":
-        monsterTable = get_monster_inventory(user_id, monsterInventoryTable, monsterTable)
-        for monster in monsterTable:
-            print('|', end='')
-            for field in monster[1:]:
-                print("{:^16}".format(field), end='')
-                print('|', end='')
+        monsterList = get_monster_inventory(user_id, monsterInventoryTable, monsterTable)
+
+        # Setiap monster akan ditunjukkan atribut sesuai urutan array attr
+        # Array attr berisi triplet atribut yang ditunjukkan, nama header di monsterList, dan indeks di mosterList
+        attr = [["MonsterID", "monster_id", -1], ["Name", "type", -1], ["Level", "level", -1],
+                ["HP", "hp", -1], ["ATK", "atk_power", -1], ["DEF", "def_power", -1]]
+        for i in range(len(attr)):
+            header = attr[i][1]
+            for j in range(len(monsterList[0])):
+                if header==monsterList[0][j]:
+                    attr[i][2] = j
+        
+        # Tunjukkan data setiap monster
+        for i in range(1, len(monsterList)):
             print('')
+            print('Monster ke-{}'.format(i))
+
+            monster = monsterList[i]
+            for elem in attr:
+                print('{:<10}'.format(elem[0]), end=': ')
+                print('{}'.format(monster[elem[2]]))
 
     elif opsi=="2" or opsi=="Item":
         item = get_item_inventory(user_id, itemInventoryTable)
