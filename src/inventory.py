@@ -48,25 +48,31 @@ def show_inventory(user_id, userTable, monsterInventoryTable, monsterTable, item
 
 
 def get_monster_inventory(user_id, monsterInventoryTable, monsterTable):
-    table = []      
-    table.append(monsterInventoryTable[0])
-
     # Filter monster berdasarkan kepemilikan user
     # Jika tidak memiliki monster, akan dikembalikan array yang hanya berisi judul (memiliki 1 baris)
     # Note: user Agent seharusnya sudah memiliki minimal satu monster
+    table = []      
+    table.append(monsterInventoryTable[0])
     for i in range(1, len(monsterInventoryTable)):
         monster = monsterInventoryTable[i]
         if int(monster[0])==user_id:
             table.append(monster)
 
     # Tambahkan data sesuai database monster(type, hp, atk_power, def_power)
-    table[0].append("type")
-    table[0].append("hp")
-    table[0].append("atk_power")
-    table[0].append("def_power")
+    # Urutan penambahan atribut sesuai array attr
+    # Array attr berisi pasangan atribut dan indeks di monsterTable
+    attr = [["type", -1], ["hp", -1], ["atk_power", -1], ["def_power", -1]]
+    for i in range(len(attr)):
+        header = attr[i][0]
+        for j in range(len(monsterTable[0])):
+            if header==monsterTable[0][j]:
+                attr[i][1] = j
+
+    for elem in attr:
+        table[0].append(elem[0])
 
     # Search index kolom monster id
-    inventoryIndex = -1
+    inventoryColIndex = -1
     for i in range(len(table[0])):
         if table[0][i]=="monster_id":
             inventoryColIndex = i
@@ -74,12 +80,12 @@ def get_monster_inventory(user_id, monsterInventoryTable, monsterTable):
     # Search monster dengan monster id tertentu
     for i in range(1, len(table)):
         monsterID = table[i][inventoryColIndex]
+
         for j in range(1, len(monsterTable)):   # Search monster di database dengan id yang sama
-            if monsterTable[j][0]==monsterID:   # ID ada pada kolom indeks 0 pada database
-                table[i].append(monsterTable[j][1])
-                table[i].append(monsterTable[j][4])
-                table[i].append(monsterTable[j][2])
-                table[i].append(monsterTable[j][3])
+            if monsterTable[j][0]==monsterID:   # Note: ID ada pada kolom indeks 0 pada database
+                # Tambah atribut
+                for elem in attr:
+                    table[i].append(monsterTable[j][elem[1]])
 
     return table
 
