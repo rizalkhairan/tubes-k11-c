@@ -1,13 +1,13 @@
 """Menunjukkan inventory suatu user
 
     Fungsi
-        get_monster_inventory(user_id, monsterInventoryTable)  -> [[str]] :
+        get_monster_inventory(user_id, monsterInventoryTable, monsterTable)  -> [[str]] :
             mengembalikan list monster yang ada di inventory user
         get_item_inventory(user_id, itemInventoryTable) -> [[str]] :
             mengembalikan list item yang ada di inventory user
 
     Prosedur
-        show_inventory(user_id, userTable, monsterInventoryTable, itemInventoryTable) -> [[str]] :
+        show_inventory(user_id, userTable, monsterInventoryTable, monsterTable, itemInventoryTable) -> [[str]] :
             menunjukkan inventory user
 """
 
@@ -22,12 +22,14 @@ itemData = None
 with open(FILE_PATH + "user.csv") as userFile:
     userData = csvparse.parse_csv(userFile)
 with open(FILE_PATH + "monster_inventory.csv") as monsterFile:
-    monsterData = csvparse.parse_csv(monsterFile)
+    monsterInventoryData = csvparse.parse_csv(monsterFile)
 with open(FILE_PATH + "item_inventory.csv") as itemFile:
     itemData = csvparse.parse_csv(itemFile)
+with open(FILE_PATH + "monster.csv") as monsterDatabaseFile:
+    monsterData = csvparse.parse_csv(monsterDatabaseFile)
 
-def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=monsterData,
-                   itemInventoryTable=itemData):
+def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=monsterInventoryData,
+                   monsterTable=monsterData, itemInventoryTable=itemData):
 
     print("==================== INVENTORY ====================")
     print("User ID : " + str(user_id))
@@ -44,7 +46,7 @@ def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=mo
     print("1. Monster      2. Item ")
     opsi = input()
     if opsi=="1" or opsi=="Monster":
-        monsterTable = get_monster_inventory(user_id, monsterInventoryTable)
+        monsterTable = get_monster_inventory(user_id, monsterInventoryTable, monsterTable)
         for monster in monsterTable:
             print('|', end='')
             for field in monster[1:]:
@@ -60,7 +62,7 @@ def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=mo
         pass
 
 
-def get_monster_inventory(user_id, monsterInventoryTable):
+def get_monster_inventory(user_id, monsterInventoryTable, monsterTable):
     table = []      
     table.append(monsterInventoryTable[0])
 
@@ -72,6 +74,28 @@ def get_monster_inventory(user_id, monsterInventoryTable):
         if int(monster[0])==user_id:
             table.append(monster)
 
+    # Tambahkan data sesuai database monster(type, hp, atk_power, def_power)
+    table[0].append("type")
+    table[0].append("hp")
+    table[0].append("atk_power")
+    table[0].append("def_power")
+
+    # Search index kolom monster id
+    inventoryIndex = -1
+    for i in range(len(table[0])):
+        if table[0][i]=="monster_id":
+            inventoryColIndex = i
+    
+    # Search monster dengan monster id tertentu
+    for i in range(1, len(table)):
+        monsterID = table[i][inventoryColIndex]
+        for j in range(1, len(monsterTable)):   # Search monster di database dengan id yang sama
+            if monsterTable[j][0]==monsterID:   # ID ada pada kolom indeks 0 pada database
+                table[i].append(monsterTable[j][1])
+                table[i].append(monsterTable[j][4])
+                table[i].append(monsterTable[j][2])
+                table[i].append(monsterTable[j][3])
+
     return table
 
 def get_item_inventory(user_id, itemInventoryTable):
@@ -81,4 +105,3 @@ def get_item_inventory(user_id, itemInventoryTable):
 # ==================== Test ====================
 
 show_inventory()
-
