@@ -41,14 +41,18 @@ def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=mo
     
     # Opsi untuk menunjukkan monster atau item
     print("Tunjukkan:")
-    print("1. Monster")
-    print("2. Item")
+    print("1. Monster      2. Item ")
     opsi = input()
-    if opsi=="1" or "Monster":
-        table = get_monster_inventory(user_id, monsterInventoryTable)
-        print(table)
+    if opsi=="1" or opsi=="Monster":
+        monsterTable = get_monster_inventory(user_id, monsterInventoryTable)
+        for monster in monsterTable:
+            print('|', end='')
+            for field in monster[1:]:
+                print("{:^16}".format(field), end='')
+                print('|', end='')
+            print('')
 
-    elif opsi=="2" or "Item":
+    elif opsi=="2" or opsi=="Item":
         item = get_item_inventory(user_id, itemInventoryTable)
         print(item)
 
