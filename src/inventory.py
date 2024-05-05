@@ -17,22 +17,28 @@ import csvparse
 def show_inventory(user_id, userTable, monsterInventoryTable, monsterTable, itemInventoryTable):
 
     print("==================== INVENTORY ====================")
-    print("User ID : " + str(user_id))
+    print("· {:<6}:".format("User ID"), str(user_id))
 
     # Menunjukkan jumlah coin yang dimiliki user
     for i in range(1, len(userTable)):
         user = userTable[i]
         if int(user[0])==user_id:   # Cek user id yang sesuai
             coins = int(user[4])
-            print("O.W.C.A Coin : " + str(coins))
+            print("· {:<12}:".format("O.W.C.A Coin"), str(coins))
     
     # Opsi untuk menunjukkan monster atau item
-    print("Tunjukkan:")
+    print("→ Tunjukkan:", )
     print("1. Monster      2. Item ")
+    print("\033[90m{}\033[00m".format("[Ketik angka]"))
     opsi = input()
+    print()
     if opsi=="1" or opsi=="Monster":
         monsterList = get_monster_inventory(user_id, monsterInventoryTable, monsterTable)
+        print('--- Monster Info ---')
 
+        if len(monsterList)==1:
+            print('Tidak memiliki monster')
+            return
         # Setiap monster akan ditunjukkan atribut sesuai urutan array attr
         # Array attr berisi triplet atribut yang ditunjukkan, nama header di monsterList, dan indeks di mosterList
         attr = [["MonsterID", "monster_id", -1], ["Name", "type", -1], ["Level", "level", -1],
@@ -45,13 +51,12 @@ def show_inventory(user_id, userTable, monsterInventoryTable, monsterTable, item
         
         # Tunjukkan data setiap monster
         for i in range(1, len(monsterList)):
-            print('')
-            print('Monster ke-{}'.format(i))
-
+            print('· Monster ke-{}'.format(i))
             monster = monsterList[i]
             for elem in attr:
                 print('{:<10}'.format(elem[0]), end=': ')
                 print('{}'.format(monster[elem[2]]))
+            print('')
 
     elif opsi=="2" or opsi=="Item":
         item = get_item_inventory(user_id, itemInventoryTable)
@@ -111,7 +116,7 @@ def get_item_inventory(user_id, itemInventoryTable):
 
 if __name__ == "__main__":
     # Loading data sementara. Akses file eksternal hanya pada proses load dan save (F14 dan F15)
-    USER_ID = 2
+    USER_ID = 3
     FILE_PATH = "../data/"
     with open(FILE_PATH + "user.csv") as userFile:
         userData = csvparse.parse_csv(userFile)
