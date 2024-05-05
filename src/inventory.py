@@ -13,23 +13,8 @@
 
 import csvparse
 
-# Loading data sementara. Akses file eksternal hanya pada proses load dan save (F14 dan F15)
-USER_ID = 2
-FILE_PATH = "../data/"
-userData = None
-monsterData = None
-itemData = None
-with open(FILE_PATH + "user.csv") as userFile:
-    userData = csvparse.parse_csv(userFile)
-with open(FILE_PATH + "monster_inventory.csv") as monsterFile:
-    monsterInventoryData = csvparse.parse_csv(monsterFile)
-with open(FILE_PATH + "item_inventory.csv") as itemFile:
-    itemData = csvparse.parse_csv(itemFile)
-with open(FILE_PATH + "monster.csv") as monsterDatabaseFile:
-    monsterData = csvparse.parse_csv(monsterDatabaseFile)
 
-def show_inventory(user_id=USER_ID, userTable=userData, monsterInventoryTable=monsterInventoryData,
-                   monsterTable=monsterData, itemInventoryTable=itemData):
+def show_inventory(user_id, userTable, monsterInventoryTable, monsterTable, itemInventoryTable):
 
     print("==================== INVENTORY ====================")
     print("User ID : " + str(user_id))
@@ -104,4 +89,17 @@ def get_item_inventory(user_id, itemInventoryTable):
 
 # ==================== Test ====================
 
-show_inventory()
+if __name__ == "__main__":
+    # Loading data sementara. Akses file eksternal hanya pada proses load dan save (F14 dan F15)
+    USER_ID = 2
+    FILE_PATH = "../data/"
+    with open(FILE_PATH + "user.csv") as userFile:
+        userData = csvparse.parse_csv(userFile)
+    with open(FILE_PATH + "monster_inventory.csv") as monsterFile:
+        monsterInventoryData = csvparse.parse_csv(monsterFile)
+    with open(FILE_PATH + "monster.csv") as monsterDatabaseFile:
+        monsterData = csvparse.parse_csv(monsterDatabaseFile)
+    with open(FILE_PATH + "item_inventory.csv") as itemFile:
+        itemData = csvparse.parse_csv(itemFile)
+    
+    show_inventory(USER_ID, userData, monsterInventoryData, monsterData, itemData)
